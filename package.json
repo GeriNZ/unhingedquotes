@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "A simple app that transforms quotes using OpenAI",
   "scripts": {
+    "build": "echo 'No build step required' && exit 0",
+    "dev": "netlify dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -11,9 +13,8 @@
   "devDependencies": {
     "netlify-cli": "^15.0.0"
   },
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  }
 }

@@ -1,5 +1,8 @@
 // netlify/functions/transform-quote.js
-exports.handler = async (event) => {
+// In transform-quote.js
+import fetch from 'node-fetch';
+
+export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
