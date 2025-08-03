@@ -1,0 +1,19 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Port of Spain",
+			"country": {
+				"code": "TT",
+				"name": "Trinidad and Tobago"
+			},
+			"subdivision": {
+				"code": "POS",
+				"name": "Port of Spain"
+			},
+			"timezone": "America/Port_of_Spain",
+			"latitude": 10.6698,
+			"longitude": -61.5142
+		},
+		"timestamp": 1754246865287
+	}
+}
