@@ -1,8 +1,15 @@
 [build]
   command = "npm install && npm run build"
-  publish = "."
+  publish = "dist"  # Explicit publish directory
   functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"  # Faster bundling
+  timeout = 10              # 10 second timeout
+  directory = "netlify/functions"
 
 [dev]
   framework = "#static"
   targetPort = 3000
+  functions = "netlify/functions"  # Important for local dev
+  publish = "dist"
