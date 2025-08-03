@@ -78,57 +78,76 @@ function initStyleDropdown() {
   });
 }
 
-// Strategy 1: Try direct HTTP connection
-async function tryDirectHttp() {
-  try {
-    const res = await fetch('http://api.quotable.io/random');
-    if (!res.ok) throw new Error('HTTP request failed');
-    return await res.json();
-  } catch {
-    return null;
-  }
-}
+// // Strategy 1: Try direct HTTP connection
+// async function tryDirectHttp() {
+//   try {
+//     const res = await fetch('https://api.quotable.io/random', {
+//       mode: 'cors', // Explicitly request CORS
+//       headers: {
+//         'Content-Type': 'application/json',
+//       }
+//     });
+    
+//     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    
+//     // Check if the response has CORS headers
+//     if (!res.headers.get('access-control-allow-origin')) {
+//       throw new Error('CORS not allowed');
+//     }
+    
+//     return await res.json();
+//   } catch (error) {
+//     console.error('Direct HTTP fetch failed:', error.message);
+//     return null;
+//   }
+// }
 
-// Strategy 2: Use a reliable CORS proxy
-async function tryProxy() {
-  try {
-    const proxyUrl = 'https://api.allorigins.win/raw?url=';
-    const apiUrl = encodeURIComponent('https://api.quotable.io/random');
-    const res = await fetch(proxyUrl + apiUrl);
-    if (!res.ok) throw new Error('Proxy request failed');
-    return await res.json();
-  } catch {
-    return null;
-  }
-}
+// // Strategy 2: Use a reliable CORS proxy
+// async function tryProxy() {
+//   try {
+//     const proxyUrl = 'https://api.allorigins.win/raw?url=';
+//     const apiUrl = encodeURIComponent('https://api.quotable.io/random');
+//     const res = await fetch(proxyUrl + apiUrl);
+//     if (!res.ok) throw new Error('Proxy request failed');
+//     return await res.json();
+//   } catch {
+//     return null;
+//   }
+// }
 
-// Strategy 3: Use alternative API
-async function tryAlternativeAPI() {
-  try {
-    const res = await fetch('https://zenquotes.io/api/random');
-    if (!res.ok) throw new Error('Alternative API failed');
-    const data = await res.json();
-    return { content: data[0].q, author: data[0].a };
-  } catch {
-    return null;
-  }
-}
+// // Strategy 3: Use alternative API
+// async function tryAlternativeAPI() {
+//   try {
+//     const res = await fetch('https://zenquotes.io/api/random');
+//     if (!res.ok) throw new Error('Alternative API failed');
+//     const data = await res.json();
+//     return { content: data[0].q, author: data[0].a };
+//   } catch {
+//     return null;
+//   }
+// }
 
 async function fetchQuote() {
-  let quoteData = await tryDirectHttp() || 
-                 await tryProxy() || 
-                 await tryAlternativeAPI();
-
-  if (quoteData) {
+  try {
+    const res = await fetch('/.netlify/functions/get-quote');
+    if (!res.ok) throw new Error('Failed to fetch quote');
+    
+    const quoteData = await res.json();
     quoteEl.textContent = `${quoteData.content} - ${quoteData.author}`;
     originalQuote = `${quoteData.content} - ${quoteData.author}`;
-  } else {
-    const randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
-    quoteEl.textContent = fallbackQuotes[randomIndex];
-    originalQuote = fallbackQuotes[randomIndex];
+  } catch (error) {
+    console.error('Error fetching quote:', error);
+    // Use hardcoded fallback
+    const fallbacks = [
+      "Stay hungry, stay foolish. - Steve Jobs",
+      "The best way to predict the future is to invent it. - Alan Kay",
+      "Code is like humor. When you have to explain it, it's bad. - Cory House"
+    ];
+    const randomIndex = Math.floor(Math.random() * fallbacks.length);
+    quoteEl.textContent = fallbacks[randomIndex];
+    originalQuote = fallbacks[randomIndex];
   }
 }
-
 async function transformQuote() {
   const styleKey = styleEl.value;
   const style = styleOptions[styleKey];

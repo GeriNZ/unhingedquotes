@@ -4,10 +4,12 @@
   "description": "A simple app that transforms quotes using OpenAI",
   "scripts": {
     "build": "echo 'No build step required' && exit 0",
-    "dev": "netlify dev",
+    "dev": "set NODE_TLS_REJECT_UNAUTHORIZED=0 && netlify dev",
     "test": "echo \"Error: no test specified\" && exit 1"
+
   },
   "dependencies": {
+    "dotenv": "^17.2.1",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
@@ -17,4 +19,5 @@
   "engines": {
     "node": ">=18"
   }
+  
 }
