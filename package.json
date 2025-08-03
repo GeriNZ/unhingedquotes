@@ -1,0 +1,19 @@
+{
+  "name": "netlify-openai-quote-app",
+  "version": "1.0.0",
+  "description": "A simple app that transforms quotes using OpenAI",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "netlify-cli": "^15.0.0"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
