@@ -1,14 +1,19 @@
 [build]
-  command = "npm install && npm run build"
-  publish = "dist"
+  command = "npm install && npm run build"  # Keep your build command
   functions = "netlify/functions"
+  publish = "."  # Root directory publishing
 
 [functions]
   node_bundler = "esbuild"
-  # Timeout should be specified per function
-  "get-quote" = { timeout = 10 }  # Specific function timeout
+  "get-quote" = { timeout = 10 }  # Specific timeout for your function
 
 [dev]
   framework = "#static"
   targetPort = 3000
-  publish = "dist"
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
